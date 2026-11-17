@@ -1,0 +1,16 @@
+name: marine_navigation
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - xarray
+  - netcdf4
+  - dask
+  - matplotlib
+  - cartopy
+  - cmocean
+  - scipy
+  - jupyterlab
+  - ipykernel

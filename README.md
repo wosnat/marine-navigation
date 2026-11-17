@@ -1,0 +1,24 @@
+# marine_navigation
+
+Exploring the environmental cues that marine organisms may use for navigation.
+
+## First task: World Ocean Atlas
+
+Analyze the [World Ocean Atlas](https://www.ncei.noaa.gov/products/world-ocean-atlas) (NOAA NCEI) climatologies (temperature, salinity, oxygen, nutrients, etc.) to see how these fields vary in space and with depth, and whether any of them could act as navigational cues.
+
+## Layout
+
+```
+data/raw/        downloaded source data (not tracked by git)
+data/processed/  derived datasets (not tracked by git)
+notebooks/       exploratory Jupyter notebooks
+src/marine_navigation/  reusable analysis code
+figures/         output plots
+```
+
+## Setup
+
+```bash
+conda env create -f environment.yml
+conda activate marine_navigation
+```
