@@ -18,7 +18,10 @@ figures/         output plots
 
 ## Setup
 
+Requires [uv](https://docs.astral.sh/uv/).
+
 ```bash
-conda env create -f environment.yml
-conda activate marine_navigation
+uv sync                  # creates .venv and installs dependencies
+uv run jupyter lab       # start JupyterLab
+uv add <package>         # add a new dependency
 ```
