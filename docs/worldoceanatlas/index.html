@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Ocean Atlas Overview</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="inner">
+  <a class="brand" href="index.html">World Ocean Atlas 2023</a>
+  <nav>
+    <a href="index.html" aria-current="page">Overview</a>
+    <a href="contents.html">What's in it</a>
+    <a href="working-with-woa.html">Working with it</a>
+    <a href="gallery.html">Gallery</a>
+  </nav>
+</div></header>
+
+<main>
+  <h1>World Ocean Atlas 2023: an overview</h1>
+  <p class="lede">The World Ocean Atlas (WOA) is NOAA's gridded, long-term average picture of the
+  ocean's interior: temperature, salinity, oxygen and nutrients, from the surface down to 5,500 m.
+  These pages describe what it contains, how to use it in this project, and what it looks like.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">6</div><div class="lbl">measured variables (+2 derived from oxygen)</div></div>
+    <div class="stat"><div class="num">102</div><div class="lbl">standard depth levels, 0 – 5,500 m</div></div>
+    <div class="stat"><div class="num">¼°, 1°, 5°</div><div class="lbl">grid resolutions</div></div>
+    <div class="stat"><div class="num">1955 – 2022</div><div class="lbl">years of observations</div></div>
+  </div>
+
+  <h2>What it is</h2>
+  <p>WOA23 is produced by NOAA's National Centers for Environmental Information (NCEI), Ocean Climate
+  Laboratory, and was released in February 2024. It is built from the <strong>World Ocean Database</strong>,
+  the largest public collection of ocean profile measurements: ship casts (CTD and bottles), expendable
+  probes, gliders and, since the mid-2000s, mostly <strong>Argo floats</strong>. WOA23 added about 3.1 million
+  casts compared with WOA18.</p>
+  <p>The scattered measurements are quality-controlled, averaged into grid boxes at fixed
+  ("standard") depths, then <strong>objectively analyzed</strong>. That is, they are smoothed and interpolated
+  so that every ocean grid cell has a value, even where nobody ever measured. The result is a
+  <em>climatology</em>: the typical state of the ocean for a given month, season or year, averaged over many years.
+  It is not a snapshot of any particular day.</p>
+
+  <h2>Why it matters for marine navigation</h2>
+  <p>Many migrating animals (turtles, eels, salmon, tunas, whales) cross ocean basins and come back to
+  specific places. Besides the geomagnetic field, candidate cues include gradients in water properties
+  that an animal can sense directly: temperature, salinity and, indirectly, chemistry. WOA gives us
+  a consistent global map of these properties in three dimensions, so we can ask:</p>
+  <ul>
+    <li>Where are the gradients (fronts) strong enough to be detectable, and which direction do they point?</li>
+    <li>How stable are these patterns across seasons and decades, and therefore how reliable are they as cues?</li>
+    <li>How do the patterns change with depth, for animals that dive or migrate at depth?</li>
+  </ul>
+  <div class="note"><strong>Limits to keep in mind.</strong> WOA is a smoothed long-term average. It hides
+  eddies, day-to-day variability and fine-scale fronts that an animal actually experiences. It also has no
+  currents, magnetic field or bathymetry; those come from other datasets.</div>
+
+  <h2>Pages</h2>
+  <div class="cards">
+    <a class="card" href="contents.html"><h3>What's in it</h3><p>Variables, statistical fields, time spans, seasons and months, grids, depth levels and file naming.</p></a>
+    <a class="card" href="working-with-woa.html"><h3>Working with it</h3><p>Downloading files, opening them with xarray, selecting depths and locations, and common pitfalls.</p></a>
+    <a class="card" href="gallery.html"><h3>Gallery</h3><p>Maps, profiles, sections, seasonal and decadal change, data coverage and gradients.</p></a>
+  </div>
+
+  <h2 id="key-references">Key references</h2>
+  <ul>
+    <li>Product page: <a href="https://www.ncei.noaa.gov/products/world-ocean-atlas">ncei.noaa.gov/products/world-ocean-atlas</a></li>
+    <li>Reagan, J.R. et al. (2024). <em>World Ocean Atlas 2023: Product Documentation.</em> NOAA NCEI.
+      <a href="https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DOCUMENTATION/WOA23_Product_Documentation.pdf">PDF</a></li>
+    <li>Locarnini, R.A. et al. (2024). WOA23 Vol. 1: Temperature. NOAA Atlas NESDIS 89. <a href="https://doi.org/10.25923/54bh-1613">doi:10.25923/54bh-1613</a></li>
+    <li>Reagan, J.R. et al. (2024). WOA23 Vol. 2: Salinity. NOAA Atlas NESDIS 90. <a href="https://doi.org/10.25923/70qt-9574">doi:10.25923/70qt-9574</a></li>
+    <li>Garcia, H.E. et al. (2024). WOA23 Vol. 3: Dissolved Oxygen, AOU and Oxygen Saturation. NOAA Atlas NESDIS 91. <a href="https://doi.org/10.25923/rb67-ns53">doi:10.25923/rb67-ns53</a></li>
+    <li>Garcia, H.E. et al. (2024). WOA23 Vol. 4: Dissolved Inorganic Nutrients. NOAA Atlas NESDIS 92. <a href="https://doi.org/10.25923/39qw-7j08">doi:10.25923/39qw-7j08</a></li>
+  </ul>
+</main>
+<footer>marine-navigation project · figures generated by <code>scripts/make_woa_overview_figures.py</code></footer>
+</body>
+</html>

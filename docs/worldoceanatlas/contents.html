@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOA23 Contents</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="inner">
+  <a class="brand" href="index.html">World Ocean Atlas 2023</a>
+  <nav>
+    <a href="index.html">Overview</a>
+    <a href="contents.html" aria-current="page">What's in it</a>
+    <a href="working-with-woa.html">Working with it</a>
+    <a href="gallery.html">Gallery</a>
+  </nav>
+</div></header>
+
+<main>
+  <h1>What's in the World Ocean Atlas</h1>
+  <p class="lede">WOA23 is organized along five axes: <strong>variable</strong> × <strong>time span</strong>
+  (which years) × <strong>time period</strong> (annual, season or month) × <strong>grid</strong>
+  (resolution) × <strong>statistical field</strong> (mean, count, error…). Each netCDF file holds one
+  variable, one time span, one period and one grid, with all statistical fields and all depths inside.</p>
+
+  <h2>Variables</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Variable</th><th>Code</th><th>Units</th><th>Time spans</th><th>Grids</th><th>What it tells you</th></tr></thead>
+    <tbody>
+      <tr><td>Temperature</td><td><code>t</code></td><td>°C</td><td>7 decades, 3 climate normals, <code>decav</code></td><td>¼°, 1°, 5°</td><td>Heat content, water masses, thermal fronts</td></tr>
+      <tr><td>Salinity</td><td><code>s</code></td><td>PSS-78 (unitless)</td><td>same as temperature</td><td>¼°, 1°, 5°</td><td>Evaporation/precipitation, river input, water masses</td></tr>
+      <tr><td>Dissolved oxygen</td><td><code>o</code></td><td>µmol/kg</td><td><code>all</code>, <code>decav71A0</code></td><td>1°, 5°</td><td>Ventilation, oxygen minimum zones (habitat limits)</td></tr>
+      <tr><td>Oxygen saturation</td><td><code>O</code></td><td>%</td><td><code>all</code>, <code>decav71A0</code></td><td>1°, 5°</td><td>Oxygen relative to what water could hold at that T and S (derived)</td></tr>
+      <tr><td>Apparent oxygen utilization</td><td><code>A</code></td><td>µmol/kg</td><td><code>all</code>, <code>decav71A0</code></td><td>1°, 5°</td><td>Oxygen used up by respiration since the water left the surface (derived)</td></tr>
+      <tr><td>Nitrate</td><td><code>n</code></td><td>µmol/kg</td><td><code>all</code></td><td>1°, 5°</td><td>Nutrient supply, productivity, upwelling</td></tr>
+      <tr><td>Phosphate</td><td><code>p</code></td><td>µmol/kg</td><td><code>all</code></td><td>1°, 5°</td><td>Nutrient supply, water-mass tracer</td></tr>
+      <tr><td>Silicate</td><td><code>i</code></td><td>µmol/kg</td><td><code>all</code></td><td>1°, 5°</td><td>Diatom nutrient; strong tracer of deep Pacific and Southern Ocean water</td></tr>
+    </tbody>
+  </table></div>
+  <p>The derived quantities that WOA18 also offered (density, conductivity, mixed layer depth) are not
+  in the WOA23 data folder. If we need them we can compute them from T and S with the
+  <a href="https://teos-10.github.io/GSW-Python/">GSW (TEOS-10)</a> package.</p>
+
+  <h2>Time spans (which years)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Code</th><th>Years</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>5564</code></td><td>1955 – 1964</td><td>First decade with enough data for a climatology</td></tr>
+      <tr><td><code>6574</code></td><td>1965 – 1974</td><td></td></tr>
+      <tr><td><code>7584</code></td><td>1975 – 1984</td><td></td></tr>
+      <tr><td><code>8594</code></td><td>1985 – 1994</td><td></td></tr>
+      <tr><td><code>95A4</code></td><td>1995 – 2004</td><td>"A" = 200x, "B" = 201x, "C" = 202x</td></tr>
+      <tr><td><code>A5B4</code></td><td>2005 – 2014</td><td>First decade with global Argo coverage</td></tr>
+      <tr><td><code>B5C2</code></td><td>2015 – 2022</td><td>An 8-year "decade"</td></tr>
+      <tr><td><code>decav71A0</code></td><td>1971 – 2000</td><td>30-year climate normal</td></tr>
+      <tr><td><code>decav81B0</code></td><td>1981 – 2010</td><td>30-year climate normal</td></tr>
+      <tr><td><code>decav91C0</code></td><td>1991 – 2020</td><td>30-year climate normal (the current WMO standard)</td></tr>
+      <tr><td><code>decav</code></td><td>1955 – 2022</td><td>Average of the seven decadal means; the default for T and S</td></tr>
+      <tr><td><code>all</code></td><td>1965 – 2022</td><td>All data regardless of year; the only option for nutrients</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Temperature and salinity have no <code>all</code> span, and oxygen and nutrients have
+  no decadal spans. When comparing T or S with oxygen or nutrients, we compare <code>decav</code> with
+  <code>all</code>, which cover nearly the same years.</div>
+
+  <h2>Time periods (within the year)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Code</th><th>Period</th><th>Depth range</th></tr></thead>
+    <tbody>
+      <tr><td><code>00</code></td><td>Annual</td><td>0 – 5,500 m (102 levels) for all variables</td></tr>
+      <tr><td><code>13</code> – <code>16</code></td><td>Seasons: Jan–Mar, Apr–Jun, Jul–Sep, Oct–Dec<br><small>(named for the northern hemisphere: 13 = "winter")</small></td><td>T, S: 0 – 5,500 m · O<sub>2</sub>: 0 – 1,500 m · nutrients: 0 – 800 m</td></tr>
+      <tr><td><code>01</code> – <code>12</code></td><td>Months, January to December</td><td>T, S, O<sub>2</sub>: 0 – 1,500 m (57 levels) · nutrients: 0 – 800 m (43 levels)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Grids</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Code</th><th>Resolution</th><th>Size (lon × lat)</th><th>Available for</th></tr></thead>
+    <tbody>
+      <tr><td><code>04</code></td><td>¼° (~28 km at the equator)</td><td>1440 × 720</td><td>Temperature and salinity only</td></tr>
+      <tr><td><code>01</code></td><td>1° (~111 km at the equator)</td><td>360 × 180</td><td>All variables. <strong>Our default.</strong></td></tr>
+      <tr><td><code>5d</code></td><td>5°</td><td>72 × 36</td><td>Statistics only (no objective analysis), <code>all</code> span; used for quality control</td></tr>
+    </tbody>
+  </table></div>
+  <p>Grid cells are centered on half degrees: on the 1° grid, latitudes run −89.5 … 89.5 and
+  longitudes −179.5 … 179.5.</p>
+
+  <h2>Statistical fields (inside each file)</h2>
+  <p>Each variable in a file is named <code>&lt;code&gt;_&lt;field&gt;</code>, for example <code>t_an</code> or <code>o_dd</code>.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Field</th><th>Meaning</th><th>Use it for</th></tr></thead>
+    <tbody>
+      <tr><td><code>_an</code></td><td>Objectively analyzed climatology: smoothed, gap-filled mean</td><td><strong>The main field.</strong> Maps, gradients, profiles</td></tr>
+      <tr><td><code>_mn</code></td><td>Statistical mean: plain average of observations in the cell (empty where no data)</td><td>Checking <code>_an</code> against raw data</td></tr>
+      <tr><td><code>_dd</code></td><td>Number of observations in the cell</td><td>Judging how much to trust <code>_an</code> there</td></tr>
+      <tr><td><code>_sd</code></td><td>Standard deviation of observations about <code>_mn</code></td><td>Natural variability in the cell</td></tr>
+      <tr><td><code>_se</code></td><td>Standard error of <code>_mn</code></td><td>Uncertainty of the raw mean</td></tr>
+      <tr><td><code>_oa</code></td><td><code>_mn</code> minus <code>_an</code></td><td>Smoothing and interpolation error</td></tr>
+      <tr><td><code>_ma</code></td><td>This season or month minus the annual <code>_an</code></td><td>Seasonal anomaly (in seasonal and monthly files only)</td></tr>
+      <tr><td><code>_gp</code></td><td>Number of cells with data within the radius of influence</td><td>Another data-density indicator</td></tr>
+      <tr><td><code>_sdo</code></td><td>Objectively analyzed standard deviation (new in WOA23)</td><td>Gap-filled map of variability</td></tr>
+      <tr><td><code>_sea</code></td><td>Standard error of the analysis (new in WOA23)</td><td>Uncertainty of <code>_an</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Standard depth levels</h2>
+  <p>102 levels from 0 to 5,500 m, spaced more finely near the surface, where the ocean changes fastest:</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Depth range</th><th>Spacing</th><th>Levels</th></tr></thead>
+    <tbody>
+      <tr><td>0 – 100 m</td><td>5 m</td><td>1 – 21</td></tr>
+      <tr><td>100 – 500 m</td><td>25 m</td><td>21 – 37</td></tr>
+      <tr><td>500 – 2,000 m</td><td>50 m</td><td>37 – 67</td></tr>
+      <tr><td>2,000 – 5,500 m</td><td>100 m</td><td>67 – 102</td></tr>
+    </tbody>
+  </table></div>
+  <p>Monthly files stop at 1,500 m (level 57); seasonal and monthly nutrient files stop at 800 m (level 43).
+  Below the seafloor, values are missing (NaN).</p>
+
+  <h2>File naming</h2>
+<pre><code>woa23_[span]_[v][period]_[grid].nc
+
+woa23_decav_t00_01.nc    temperature, 1955–2022 average, annual,      1°
+woa23_decav_s15_04.nc    salinity,    1955–2022 average, Jul–Sep,     ¼°
+woa23_all_o07_01.nc      oxygen,      all years,         July,        1°
+woa23_B5C2_t00_01.nc     temperature, 2015–2022,         annual,      1°</code></pre>
+  <p>Files live at <code>https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/&lt;variable&gt;/netcdf/&lt;span&gt;/&lt;1.00|0.25|5.00&gt;/</code>.
+  A 1° annual temperature file is about 85 MB. Besides netCDF, the data are also offered as CSV,
+  shapefiles and a legacy ASCII format, but netCDF is the easiest to work with.</p>
+
+  <h3>Masks</h3>
+  <p><code>WOA23/MASKS/</code> holds <code>landsea_01.msk</code> (the standard level at which the seafloor
+  is reached in each cell) and <code>basinmask_01.msk</code> (60 numbered basins, such as Atlantic Ocean, Mediterranean Sea
+  or North American Basin, which can change with depth), both also available at ¼°.</p>
+</main>
+<footer>Source: Reagan et al. (2024), <em>WOA23 Product Documentation</em>, NOAA NCEI.</footer>
+</body>
+</html>

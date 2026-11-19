@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working With WOA23</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="inner">
+  <a class="brand" href="index.html">World Ocean Atlas 2023</a>
+  <nav>
+    <a href="index.html">Overview</a>
+    <a href="contents.html">What's in it</a>
+    <a href="working-with-woa.html" aria-current="page">Working with it</a>
+    <a href="gallery.html">Gallery</a>
+  </nav>
+</div></header>
+
+<main>
+  <h1>Working with WOA23 in this project</h1>
+  <p class="lede">Files are downloaded once into <code>data/raw/woa23/</code> (ignored by git) and opened
+  with <a href="https://docs.xarray.dev/">xarray</a>. The helper module
+  <code>src/marine_navigation/woa.py</code> handles URLs, file names and caching.</p>
+
+  <h2>Setup</h2>
+<pre><code>uv sync                 # create .venv with xarray, netCDF4, cartopy, cmocean …
+uv run jupyter lab      # notebooks
+uv run python scripts/make_woa_overview_figures.py   # regenerate the gallery</code></pre>
+
+  <h2>Opening a file</h2>
+<pre><code>from marine_navigation import woa
+
+# annual (period "00") temperature, 1955–2022 average, 1° grid
+ds = woa.open_woa("temperature", period="00")
+ds = ds.isel(time=0)          # every file has a single time step; drop it
+
+sst = ds["t_an"].sel(depth=0)  # objectively analyzed mean at the surface
+sst.plot()</code></pre>
+  <p>Other examples:</p>
+<pre><code>woa.open_woa("salinity", period="15")             # Jul–Sep salinity
+woa.open_woa("oxygen",   period="07")             # July oxygen (uses the "all" span)
+woa.open_woa("temperature", span="B5C2")          # 2015–2022 annual temperature
+woa.open_woa("temperature", grid="04")            # quarter-degree (large: ~1.1 GB)
+woa.url("nitrate")                                # just get the URL</code></pre>
+
+  <p>Without the helper, plain xarray works the same way:</p>
+<pre><code>import xarray as xr
+ds = xr.open_dataset("data/raw/woa23/woa23_decav_t00_01.nc", decode_times=False)</code></pre>
+
+  <h3>Reading remotely without downloading (OPeNDAP)</h3>
+  <p>NCEI also serves the files through THREDDS, so you can read just a slice over the network.
+  This is handy for quarter-degree files:</p>
+<pre><code>url = ("https://www.ncei.noaa.gov/thredds-ocean/dodsC/woa23/DATA/"
+       "temperature/netcdf/decav/0.25/woa23_decav_t00_04.nc")
+ds = xr.open_dataset(url, decode_times=False)
+gulf_stream = ds.t_an.isel(time=0).sel(lat=slice(30, 45), lon=slice(-80, -50), depth=0).load()</code></pre>
+
+  <h2>What's inside a file</h2>
+<pre><code>&lt;xarray.Dataset&gt;
+Dimensions:  (time: 1, depth: 102, lat: 180, lon: 360, nbounds: 2)
+Coordinates:
+  * lat      (lat) float32  -89.5 -88.5 ... 88.5 89.5
+  * lon      (lon) float32  -179.5 -178.5 ... 178.5 179.5
+  * depth    (depth) float32  0.0 5.0 10.0 ... 5400.0 5500.0
+  * time     (time) float32  ...
+Data variables:
+    t_an     (time, depth, lat, lon)   objectively analyzed mean
+    t_mn     (time, depth, lat, lon)   statistical mean
+    t_dd     (time, depth, lat, lon)   number of observations
+    t_sd, t_se, t_oa, t_gp, t_sdo, t_sea, ...  (see "What's in it")</code></pre>
+
+  <h2>Common operations</h2>
+<pre><code># a vertical profile at a point (grid cells are centered on .5 degrees)
+prof = ds.t_an.sel(lat=31.5, lon=-64.5, method="nearest")
+
+# a north–south section along a meridian
+section = ds.t_an.sel(lon=-25.5, method="nearest")
+
+# a regional box (lat and lon are ascending, so slice low→high)
+box = ds.t_an.sel(lat=slice(20, 50), lon=slice(-80, -10))
+
+# surface temperature in July minus the annual mean
+july = woa.open_woa("temperature", period="07").isel(time=0)
+anom = july.t_ma.sel(depth=0)          # already provided as the _ma field
+
+# an area-weighted global mean (cells shrink toward the poles)
+import numpy as np
+w = np.cos(np.deg2rad(ds.lat))
+global_mean_sst = ds.t_an.sel(depth=0).weighted(w).mean(("lat", "lon"))
+
+# 0–360 longitudes, e.g. for maps centered on the Pacific
+ds360 = ds.assign_coords(lon=ds.lon % 360).sortby("lon")</code></pre>
+
+  <h2>Pitfalls</h2>
+  <ul>
+    <li><strong>Time does not decode.</strong> Time is stored as "months since …", which xarray cannot decode with a standard calendar.
+      Always pass <code>decode_times=False</code>; the helper does this for you.</li>
+    <li><strong>Gap-filled ≠ measured.</strong> <code>_an</code> has a value everywhere in the ocean, including
+      places with zero observations (much of the Southern Ocean and the deep ocean, especially for oxygen
+      and nutrients). Check <code>_dd</code> or <code>_sea</code> before trusting fine detail.</li>
+    <li><strong>Smoothing weakens fronts.</strong> The objective analysis spreads data over a radius of hundreds of
+      kilometres, so sharp fronts (such as the Gulf Stream wall) look wider and gentler than in reality. Gradients computed from
+      WOA are lower bounds. Use the ¼° grid for T and S when gradients matter.</li>
+    <li><strong>Depth is selected in metres</strong>, not by level number: <code>.sel(depth=200)</code>.
+      Levels are not evenly spaced, so use <code>method="nearest"</code> or interpolate for other depths.</li>
+    <li><strong>Monthly and seasonal files are shallower</strong> (1,500 m for T, S and O<sub>2</sub> monthly; 800 m for nutrients).
+      Asking for 3,000 m in a monthly file raises a KeyError.</li>
+    <li><strong>Seasons are named for the northern hemisphere.</strong> Period 13 (Jan–Mar) is southern summer.</li>
+    <li><strong>Units:</strong> oxygen and nutrients are in µmol/kg, not µmol/L or mL/L. To convert oxygen, 1 mL/L ≈ 44.66 µmol/L.</li>
+    <li><strong>Different time spans per variable:</strong> T and S use <code>decav</code>; O<sub>2</sub> and nutrients use <code>all</code> (1965–2022).</li>
+    <li><strong>Salinity has no units</strong> (PSS-78). Density and other TEOS-10 quantities need the <code>gsw</code> package.</li>
+  </ul>
+
+  <h2>Citation</h2>
+  <p>When using WOA23 data, cite the relevant volume(s), for example Locarnini et al. (2024) for temperature. The full list is on the <a href="index.html#key-references">overview page</a>.</p>
+</main>
+<footer>marine-navigation project · helper: <code>src/marine_navigation/woa.py</code></footer>
+</body>
+</html>

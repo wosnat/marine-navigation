@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOA23 Gallery</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="inner">
+  <a class="brand" href="index.html">World Ocean Atlas 2023</a>
+  <nav>
+    <a href="index.html">Overview</a>
+    <a href="contents.html">What's in it</a>
+    <a href="working-with-woa.html">Working with it</a>
+    <a href="gallery.html" aria-current="page">Gallery</a>
+  </nav>
+</div></header>
+
+<main>
+  <h1>Gallery</h1>
+  <p class="lede">A first look at WOA23 on the 1° grid. All figures are produced by
+  <code>scripts/make_woa_overview_figures.py</code>. Temperature and salinity use the 1955–2022
+  average (<code>decav</code>); oxygen and nutrients use all years (<code>all</code>).</p>
+
+  <h2>The six measured variables</h2>
+  <figure>
+    <img src="figures/surface_variables.png" alt="Six world maps of annual mean surface temperature, salinity, oxygen, nitrate, phosphate and silicate">
+    <figcaption><strong>Surface, annual mean.</strong> Temperature falls from about 30 °C in the tropics to −2 °C near
+    the poles. Salinity is highest in the evaporative subtropical gyres and lowest near rivers and ice.
+    Oxygen is the near mirror image of temperature, because cold water holds more gas. Nutrients are
+    depleted almost everywhere at the surface, except in upwelling zones: the Southern Ocean, the equatorial
+    Pacific, the subarctic Pacific and the eastern boundaries.</figcaption>
+  </figure>
+
+  <h2>Depth matters</h2>
+  <figure>
+    <img src="figures/temperature_depths.png" alt="Four world maps of temperature at 0, 200, 1000 and 4000 m">
+    <figcaption><strong>Temperature at 0, 200, 1,000 and 4,000 m.</strong> The strong latitude pattern at the surface
+    gives way to the shapes of the gyres at 200 m, to the warm, salty Mediterranean outflow spreading into the
+    Atlantic at 1,000 m, and to a nearly uniform 0 – 3 °C at abyssal depths. For a diving animal, the usable
+    cues change with depth. In all maps, light grey is land and dark grey is ocean with no value at that depth (the seafloor is shallower).</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/profiles.png" alt="Vertical profiles of temperature, salinity, oxygen and nitrate at three locations">
+    <figcaption><strong>Vertical profiles.</strong> The Sargasso Sea has a deep warm layer. The eastern tropical
+    Pacific has a sharp thermocline and an <em>oxygen minimum zone</em> a few hundred metres down, which
+    limits how deep many fish can go. In the Southern Ocean the water column is cold and almost uniform, and
+    nitrate is high all the way to the surface.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/atlantic_section.png" alt="North-south depth sections of temperature, salinity and oxygen along 25.5 degrees west">
+    <figcaption><strong>North–south section through the Atlantic (25.5°W).</strong> Dark grey is seafloor; the thin gap at 37.5°N is the Azores. Water masses show up as tongues:
+    low-salinity Antarctic Intermediate Water sinking northward at about 1,000 m, salty North Atlantic Deep
+    Water flowing south at 2,000 – 3,000 m, and cold Antarctic Bottom Water hugging the seafloor.</figcaption>
+  </figure>
+
+  <h2>Change through time</h2>
+  <figure>
+    <img src="figures/seasonal_sst_difference.png" alt="World map of surface temperature difference between July–September and January–March">
+    <figcaption><strong>Seasonal cycle: Jul–Sep minus Jan–Mar sea surface temperature.</strong> The two hemispheres
+    have opposite seasons, and the swing is largest (over 8 °C) in mid-latitude western boundary regions off Asia
+    and North America. A temperature cue at a given place shifts with the seasons.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/decadal_sst_change.png" alt="World map of surface temperature change between 1955–1964 and 2015–2022">
+    <figcaption><strong>Decadal change: 2015–2022 minus 1955–1964.</strong> Most of the ocean surface has warmed. A notable exception is the cooling patch south of Greenland (the North Atlantic "warming hole").
+    The early decade is based on much sparser data, so small-scale features here are uncertain.</figcaption>
+  </figure>
+
+  <h2>How much data is behind it</h2>
+  <figure>
+    <img src="figures/coverage.png" alt="Two world maps of the number of surface observations for temperature and for oxygen">
+    <figcaption><strong>Number of observations per 1° cell at the surface (<code>_dd</code>).</strong> Temperature is
+    sampled densely along shipping lanes and coasts. Oxygen has orders of magnitude fewer measurements and many
+    empty cells (dark grey), so the oxygen and nutrient maps are much more interpolated.</figcaption>
+  </figure>
+
+  <h2>Toward navigation cues: gradients</h2>
+  <figure>
+    <img src="figures/surface_gradients.png" alt="Two world maps of the horizontal gradient magnitude of surface temperature and salinity">
+    <figcaption><strong>Horizontal gradient magnitude at the surface.</strong> Strong gradients mark fronts: the Gulf
+    Stream and Kuroshio, the Antarctic Circumpolar Current fronts, the Brazil–Malvinas confluence and the
+    equatorial upwelling edges. For salinity they also mark river plumes. These are the places where an animal
+    swimming a few days could notice a change. The 1° smoothing means real fronts are sharper than shown
+    here, so our next step is to repeat this on the ¼° grid and compare with the size of the seasonal shifts.</figcaption>
+  </figure>
+</main>
+<footer>Data: World Ocean Atlas 2023, NOAA NCEI. Colormaps: cmocean (Thyng et al., 2016).</footer>
+</body>
+</html>
