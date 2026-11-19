@@ -86,6 +86,89 @@
   <p>Grid cells are centered on half degrees: on the 1° grid, latitudes run −89.5 … 89.5 and
   longitudes −179.5 … 179.5.</p>
 
+  <h3>Number of cells (1° grid)</h3>
+  <p>The globe has 360 × 180 = 64,800 cells per depth level. Of these, <strong>41,088 are ocean at the
+  surface</strong>, 36,243 at 1,000 m and 22,193 at 4,000 m (the seafloor rises above the deeper levels in
+  more places). Across all 102 levels there are about <strong>3.3 million ocean cells</strong>.
+  The ¼° grid has 16× as many cells (1,440 × 720 = 1,036,800 per level).</p>
+
+  <h3>How big is a cell?</h3>
+  <p>One degree of latitude is always about 111 km. One degree of longitude shrinks toward the poles
+  (111 km × cos(latitude)):</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Latitude</th><th>1° cell (east–west × north–south)</th><th>Area</th></tr></thead>
+    <tbody>
+      <tr><td>Equator</td><td>111 × 111 km</td><td>~12,300 km²</td></tr>
+      <tr><td>30° (Florida, Canary Islands)</td><td>96 × 111 km</td><td>~10,700 km²</td></tr>
+      <tr><td>45° (Bay of Biscay)</td><td>79 × 111 km</td><td>~8,700 km²</td></tr>
+      <tr><td>60° (Shetland, Gulf of Alaska)</td><td>56 × 111 km</td><td>~6,200 km²</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Because cells shrink toward the poles, global averages must be <strong>area-weighted</strong>
+  by cos(latitude). Also, the smoothing in the objective analysis spreads each measurement over hundreds of
+  kilometres, so features smaller than that are blurred even on the 1° grid.</div>
+
+  <h2 id="coverage">Data sources and coverage</h2>
+  <p>WOA uses <strong>no satellite data</strong>. It is built only from in-situ measurements in the
+  World Ocean Database: ship casts (CTD and water bottles), expendable temperature probes dropped from
+  ships, Argo floats, gliders, moorings and drifting buoys. Satellites only see the surface, so they could
+  not help with the interior anyway.</p>
+  <p>Every ocean cell has an <code>_an</code> value, but many cells have <strong>no measurement at all</strong>
+  and are filled in from their neighbours. The <code>_dd</code> field counts the observations in each cell.</p>
+
+  <h3>Measured vs. interpolated cells</h3>
+  <p>Count of 1° ocean cells with at least one observation (<code>_dd</code> &gt; 0) in the annual files
+  (temperature and salinity: 1955–2022; oxygen and nutrients: 1965–2022).</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Variable</th><th>Surface: measured</th><th>Surface: interpolated</th><th>All depths: measured</th><th>All depths: interpolated</th></tr></thead>
+    <tbody>
+      <tr><td>Temperature</td><td>39,371 (96%)</td><td>1,717</td><td>2.81 M (85%)</td><td>0.50 M</td></tr>
+      <tr><td>Salinity</td><td>38,982 (95%)</td><td>2,106</td><td>2.75 M (83%)</td><td>0.55 M</td></tr>
+      <tr><td>Oxygen</td><td>29,485 (72%)</td><td>11,603</td><td>2.03 M (61%)</td><td>1.28 M</td></tr>
+      <tr><td>Phosphate</td><td>19,415 (47%)</td><td>21,673</td><td>1.20 M (36%)</td><td>2.10 M</td></tr>
+      <tr><td>Silicate</td><td>18,186 (44%)</td><td>22,902</td><td>1.17 M (35%)</td><td>2.13 M</td></tr>
+      <tr><td>Nitrate</td><td>14,205 (35%)</td><td>26,883</td><td>0.95 M (29%)</td><td>2.35 M</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Coverage by depth</h3>
+  <p>Share of ocean <em>area</em> (cos-latitude weighted) with at least one observation, and in brackets the median
+  number of observations in those cells. Area-weighted shares are a little higher than the cell counts above,
+  because the poorly sampled cells are mostly small polar ones.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Variable</th><th>Surface</th><th>200 m</th><th>1,000 m</th><th>2,000 m</th><th>4,000 m</th></tr></thead>
+    <tbody>
+      <tr><td>Temperature</td><td>99% (69)</td><td>100% (69)</td><td>99% (41)</td><td>75% (4)</td><td>49% (2)</td></tr>
+      <tr><td>Salinity</td><td>99% (36)</td><td>99% (38)</td><td>99% (36)</td><td>67% (3)</td><td>44% (2)</td></tr>
+      <tr><td>Oxygen</td><td>77% (4)</td><td>79% (5)</td><td>74% (4)</td><td>43% (3)</td><td>34% (3)</td></tr>
+      <tr><td>Nitrate</td><td>37% (2)</td><td>33% (2)</td><td>29% (2)</td><td>27% (2)</td><td>24% (2)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Coverage through time (temperature)</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Decade</th><th>Surface</th><th>200 m</th><th>1,000 m</th><th>2,000 m</th><th>4,000 m</th></tr></thead>
+    <tbody>
+      <tr><td>1955–1964</td><td>72% (6)</td><td>59% (4)</td><td>26% (1)</td><td>18% (1)</td><td>8% (1)</td></tr>
+      <tr><td>2015–2022</td><td>94% (19)</td><td>97% (19)</td><td>97% (18)</td><td>43% (2)</td><td>14% (2)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>What this means</h3>
+  <ul>
+    <li><strong>Temperature and salinity are well sampled down to about 1,000–2,000 m</strong>, mostly thanks to
+      Argo floats, which profile between 2,000 m and the surface. Below 2,000 m only ships reach, and half of the
+      deep ocean has no temperature measurement at all.</li>
+    <li><strong>Older decades are thin at depth.</strong> Before Argo, only about a quarter of the ocean was ever measured at 1,000 m.</li>
+    <li><strong>Oxygen is moderate:</strong> about three-quarters of the upper ocean has data, but only a handful of measurements per cell.</li>
+    <li><strong>Nutrients are sparse:</strong> only about a third of the ocean has any measurement, almost all from research
+      ships. Those maps are mostly interpolation, so fine-scale patterns in them should not be trusted.</li>
+    <li><strong>"Measured" does not mean the map shows the measurement.</strong> <code>_an</code> is smoothed everywhere.
+      The raw cell average is in <code>_mn</code>, and <code>_oa</code> shows how far the smoothing moved it.</li>
+  </ul>
+  <p>The time axis is coarse as well: WOA holds only multi-year averages (a typical month, season or year over a span of
+  years), never the value for a particular month of a particular year.</p>
+
   <h2>Statistical fields (inside each file)</h2>
   <p>Each variable in a file is named <code>&lt;code&gt;_&lt;field&gt;</code>, for example <code>t_an</code> or <code>o_dd</code>.</p>
   <div class="table-wrap"><table>
